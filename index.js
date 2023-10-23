@@ -1,39 +1,37 @@
 document.addEventListener("DOMContentLoaded", function() {
-    const movieDetails = document.querySelector("#movie-details");
-    const moviePoster = document.querySelector("#movie-poster");
-    const movieTitle = document.querySelector("#movie-title");
-    const moviedescription=document.querySelector("#movie-description")
-    const movieRuntime = document.querySelector("#movie-runtime");
-    const movieShowtime = document.querySelector("#movie-showtime");
-    const availableTickets = document.querySelector("#available-tickets");
-    const buyTicketButton = document.querySelector("#buy-ticket");
+    const movieDetails = document.getElementById("movie-details");
+    const moviePoster = document.getElementById("movie-banner");
+    const movieTitle = document.getElementById("movie-title");
+    const moviedescription = document.getElementById("movie-description");
+    const movieRuntime = document.getElementById("movie-runtime");
+    const movieShowtime = document.getElementById("movie-showtime");
+    const availableTickets = document.getElementById("available-tickets");
+    const buyTicketButton = document.getElementById("buy-ticket");
     const filmsList = document.querySelector("#films");
 
-    // Replace with your movie data API endpoint
+    // Name a variable to contain movies file
     const movie_API = "http://localhost:3000/films";
-    
-    // Load movie details for the first movie on page load
-    
 
     // Function to fetch movie data and populate the details
-    
+    function fetchMovieData() {
         fetch(movie_API)
             .then(response => response.json())
-            .then(data => {
-                data.forEach(movie => {
-                    moviePoster.src = movie.poster;
-                    movieTitle.textContent = movie.title;
-                    moviedescription.textContent=movie.description;
-                    movieRuntime.textContent = movie.runtime;
-                    movieShowtime.textContent = movie.showtime;
-                    const available = movie.capacity - movie.tickets_sold;
-                    availableTickets.textContent = available;
-                    buyTicketButton.disabled = available === 0;
-                });
-            })
+            .then(
+                data=>{data.forEach(movie => {
+                moviePoster.src = movie.poster;
+                movieTitle.textContent = movie.title;
+                moviedescription.textContent = movie.description;
+                movieRuntime.textContent = movie.runtime;
+                movieShowtime.textContent = movie.showtime;
+                const available = movie.capacity - movie.tickets_sold;
+                availableTickets.textContent = available;
+                buyTicketButton.disabled = available === 0;
+            })})
             .catch(error => {
                 console.error('Error fetching movie data:', error);
             });
+    }
+    fetchMovieData();
 
     // Event listener for the "Buy Ticket" button
     buyTicketButton.addEventListener("click", () => {
@@ -41,13 +39,19 @@ document.addEventListener("DOMContentLoaded", function() {
         if (available > 0) {
             availableTickets.textContent = available - 1;
         }
+        fetch(`${movie_API}/${movieId}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ tickets_sold: movie.capacity - updatedCapacity }),
+        })
     });
 
     // Remove the placeholder item and populate the movie menu
     filmsList.removeChild(filmsList.querySelector('.film.item'));
 
-    // Fetch movie menu items and add them to the filmsList
-    fetchMoviesMenu();
+    // Fetch movie menu items and add them to the movie list
 
     // Function to fetch movie menu items
     async function fetchMoviesMenu() {
@@ -73,5 +77,12 @@ document.addEventListener("DOMContentLoaded", function() {
             console.error("Error:", error);
         }
     }
+
+    // Call the fetchMoviesMenu function to populate the movie menu
+    fetchMoviesMenu();
 });
- 
+
+
+
+    
+        

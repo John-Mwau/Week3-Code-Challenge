@@ -1,11 +1,12 @@
 .menu-bar{
+
    background-color: antiquewhite;
+   display: flex;
+   flex-direction: row;
+   justify-content: space-between;
+   padding: 20px 30px;
 }
-.menu-bar nav ul{
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-}
+
 #movies-container {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -20,7 +21,7 @@
     
 }
 
-#movie-poster{
+#movie-banner{
     width: 100%;
     height: 200px;
 }
@@ -28,3 +29,4 @@ h3{
     color: white;
     font-size: 18px;
 }
+
