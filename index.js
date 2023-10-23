@@ -17,13 +17,13 @@ document.addEventListener("DOMContentLoaded", function() {
         fetch(movie_API)
             .then(response => response.json())
             .then(
-                data=>{data.forEach(movie => {
-                moviePoster.src = movie.poster;
-                movieTitle.textContent = movie.title;
-                moviedescription.textContent = movie.description;
-                movieRuntime.textContent = movie.runtime;
-                movieShowtime.textContent = movie.showtime;
-                const available = movie.capacity - movie.tickets_sold;
+                data=>{data.forEach(film => {
+                moviePoster.src = film.poster;
+                movieTitle.textContent = film.title;
+                moviedescription.textContent = film.description;
+                movieRuntime.textContent = film.runtime;
+                movieShowtime.textContent = film.showtime;
+                const available = film.capacity - film.tickets_sold;
                 availableTickets.textContent = available;
                 buyTicketButton.disabled = available === 0;
             })})
