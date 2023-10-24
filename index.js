@@ -1,88 +1,49 @@
-document.addEventListener("DOMContentLoaded", function() {
-    const movieDetails = document.getElementById("movie-details");
-    const moviePoster = document.getElementById("movie-banner");
-    const movieTitle = document.getElementById("movie-title");
-    const moviedescription = document.getElementById("movie-description");
-    const movieRuntime = document.getElementById("movie-runtime");
-    const movieShowtime = document.getElementById("movie-showtime");
-    const availableTickets = document.getElementById("available-tickets");
-    const buyTicketButton = document.getElementById("buy-ticket");
-    const filmsList = document.querySelector("#films");
 
-    // Name a variable to contain movies file
-    const movie_API = "http://localhost:3000/films";
-
-    // Function to fetch movie data and populate the details
-    function fetchMovieData() {
-        fetch(movie_API)
-            .then(response => response.json())
-            .then(
-                data=>{data.forEach(film => {
-                moviePoster.src = film.poster;
-                movieTitle.textContent = film.title;
-                moviedescription.textContent = film.description;
-                movieRuntime.textContent = film.runtime;
-                movieShowtime.textContent = film.showtime;
-                const available = film.capacity - film.tickets_sold;
-                availableTickets.textContent = available;
-                buyTicketButton.disabled = available === 0;
-            })})
-            .catch(error => {
-                console.error('Error fetching movie data:', error);
-            });
-    }
-    fetchMovieData();
-
-    // Event listener for the "Buy Ticket" button
-    buyTicketButton.addEventListener("click", () => {
-        const available = parseInt(availableTickets.textContent);
-        if (available > 0) {
-            availableTickets.textContent = available - 1;
-        }
-        fetch(`${movie_API}/${movieId}`, {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ tickets_sold: movie.capacity - updatedCapacity }),
-        })
-    });
-
-    // Remove the placeholder item and populate the movie menu
-    filmsList.removeChild(filmsList.querySelector('.film.item'));
-
-    // Fetch movie menu items and add them to the movie list
-
-    // Function to fetch movie menu items
-    async function fetchMoviesMenu() {
-        try {
-            const response = await fetch(movie_API);
-            if (!response.ok) {
-                throw new Error("Failed to fetch movie menu");
-            }
-            const movies = await response.json();
-            movies.forEach(movie => {
-                const filmItem = document.createElement("li");
-                filmItem.className = "film item";
-                filmItem.textContent = movie.title;
-                filmItem.dataset.movieId = movie.id;
-                filmsList.appendChild(filmItem);
-
-                // Add click event listener for each movie menu item
-                filmItem.addEventListener("click", () => {
-                    fetchMovieData(movie.id);
-                });
-            });
-        } catch (error) {
-            console.error("Error:", error);
-        }
-    }
-
-    // Call the fetchMoviesMenu function to populate the movie menu
-    fetchMoviesMenu();
-});
-
-
-
+let films = [] //Define a string variable to hold films data
+document.addEventListener("DOMContentLoaded",()=>{
+    getflims ()
+})
+// Get movies data from the local json server
+const movies= "http://localhost:3000/films"
+function getflims (){ 
+    fetch(movies)
+    .then (res =>res.json())
     
+    .then (data=>{
+        films = [...data]
+        dispalyFlims (films)
         
+    })
+    
+}
+//Function to display all movies within the div. Three Movies are to be displayed in each row.
+function dispalyFlims (films){
+    const filmcontainer = document.querySelector("#film")
+    films.forEach(film=> {     //Get data for each movie from the object and populate it to the respective IDs.
+        filmcontainer.innerHTML += `
+        <div class="p-2 m-3 col-3">
+            <div class="card"id="card" >
+                <div class="card-body" >
+                <img src="${film.poster}" class="card-img-top" alt="${film.description}">
+                <h5 class="card-title">${film.title}</h5>
+                    <span>
+                    <ul>
+                        <li>Runtime:${film.runtime}</li>
+                    
+                        <li>Showtime:${film.showtime}</li>
+                        
+                    <li>Available Ticket:${film.capacity-film.tickets_sold}</li>
+                        
+                    </ul>
+                    </span>
+                    <button id= "Buy Button" >Buy Ticket:</button>
+
+                </div>
+            </div>
+                
+            </div>`
+       
+})
+
+ }   
+
