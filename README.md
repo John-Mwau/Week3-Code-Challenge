@@ -9,5 +9,6 @@
 
 # How to Customize the Code
 ## Git clone the SSH key `git@github.com:John-Mwau/Week3-Code-Challenge.git` to your local machine. 
+
 # Author
  ## This Movie web app is created by John Mwau. 
