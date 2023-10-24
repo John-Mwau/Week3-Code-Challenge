@@ -26,6 +26,7 @@ function dispalyFlims (films){
                 <div class="card-body" >
                 <img src="${film.poster}" class="card-img-top" alt="${film.description}">
                 <h5 class="card-title">${film.title}</h5>
+                <h6>${film.description}</h6>
                     <span>
                     <ul>
                         <li>Runtime:${film.runtime}</li>
@@ -36,7 +37,7 @@ function dispalyFlims (films){
                         
                     </ul>
                     </span>
-                    <button id= "Buy Button" >Buy Ticket:</button>
+                    <button id= "Buy Button"> Buy Ticket</button>
 
                 </div>
             </div>
@@ -46,4 +47,19 @@ function dispalyFlims (films){
 })
 
  }   
+  // Event listener for the "Buy Ticket" button
+buyTicketButton.addEventListener("click", () => {
+    document.getElementById('Buy Button');
+    const available = parseInt(availableTickets.textContent);
+    if (available > 0) {
+        availableTickets.textContent = available - 1;
+    }
+    fetch(`${movies}`, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ tickets_sold: movie.capacity - updatedCapacity }),
+    })
+});
 
