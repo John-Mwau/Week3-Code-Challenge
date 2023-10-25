@@ -4,9 +4,9 @@ document.addEventListener("DOMContentLoaded",()=>{
     getflims ()
 })
 // Get movies data from the local json server
-const movies= "http://localhost:3000/films"
+let baseURL= "https://my-json-server.typicode.com/John-Mwau/Week3-Code-Challenge/films"
 function getflims (){ 
-    fetch(movies)
+    fetch(baseURL)
     .then (res =>res.json())
     
     .then (data=>{
@@ -42,24 +42,10 @@ function dispalyFlims (films){
                 </div>
             </div>
                 
-            </div>`
+            </div>`; 
        
 })
-
  }   
-  // Event listener for the "Buy Ticket" button
-buyTicketButton.addEventListener("click", () => {
-    document.getElementById('Buy Button');
-    const available = parseInt(availableTickets.textContent);
-    if (available > 0) {
-        availableTickets.textContent = available - 1;
-    }
-    fetch(`${movies}`, {
-        method: "PUT",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ tickets_sold: movie.capacity - updatedCapacity }),
-    })
-});
+ 
 
+ 
